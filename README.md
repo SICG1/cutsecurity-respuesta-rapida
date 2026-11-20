@@ -1,24 +1,39 @@
-# Kits de respuesta de Cut Security
+# Respuesta rápida Cut Security
 
-Cada kit responde a una vulnerabilidad que se está explotando. Trae lo necesario para revisar los equipos en una sola
-pasada: un verificador de solo lectura, los indicadores de compromiso, reglas de detección y una guía en español.
+Kits listos para revisar sus equipos cuando una vulnerabilidad empieza a explotarse.
 
-Los kits se publican junto a la alerta correspondiente en la comunidad de Cut Security: https://cutsecurity.cl/comunidad
+Cada vez que aparece una vulnerabilidad grave, cada equipo de seguridad repite el mismo trabajo. Lee los informes,
+extrae los indicadores, escribe las búsquedas y adapta las reglas a su SIEM. Este repositorio entrega ese trabajo hecho.
+Cut Security prepara cada kit desde las fuentes primarias y lo publica junto a la alerta en su comunidad:
+https://cutsecurity.cl/comunidad
 
-## Kits publicados
+## Qué trae cada kit
 
-| Fecha | Kit | Vulnerabilidad | Descarga |
+- Un verificador de solo lectura para ejecutar en los equipos expuestos.
+- Los indicadores de compromiso en CSV, para importar, y en Excel, para revisar.
+- Reglas de detección en formato Sigma y para Wazuh.
+- Una guía en español con la prioridad, los pasos y qué hacer si aparecen indicadores.
+- Los plazos para reportar al CSIRT Nacional según la Ley 21.663.
+- La huella SHA-256 de cada archivo.
+
+## Kits disponibles
+
+| Publicado | Producto | Vulnerabilidad | Descarga |
 |---|---|---|---|
-| 20-11-2026 | [VMware vCenter](Kit%20de%20respuesta%20VMware%20vCenter%20CVE-2026-123890/) | CVE-2026-123890, explotada por ARMORY CASTLE | [Versión 1.0](https://github.com/SICG1/kits-de-respuesta/releases/tag/vcenter-cve-2026-123890-v1.0) |
+| 20-11-2026 | [VMware vCenter](Kit%20de%20respuesta%20VMware%20vCenter%20CVE-2026-123890/) | CVE-2026-123890, explotada por el grupo ARMORY CASTLE | [Versión 1.0](https://github.com/SICG1/cutsecurity-respuesta-rapida/releases/tag/vcenter-cve-2026-123890-v1.0) |
 
-## Antes de usar un kit
+## Cómo usar un kit con seguridad
 
-1. Descargue el zip desde la sección «Releases» y compare su huella SHA-256 con la que publica la versión.
-2. Dentro del kit, compruebe cada archivo: `sha256sum -c "Huellas SHA-256.txt"`.
-3. Lea cada guion antes de ejecutarlo. Los verificadores solo leen: no cambian, no borran y no envían datos.
-4. Lea la sección «Límites del kit» de la guía. Un resultado limpio no prueba que un equipo esté sano.
+1. Descargue el zip desde «Releases». Compare su huella SHA-256 con la que publica la versión.
+2. Descomprímalo y compruebe cada archivo con `sha256sum -c "Huellas SHA-256.txt"`.
+3. Lea cada guion antes de ejecutarlo. Los verificadores solo leen: no modifican, no borran y no envían datos.
+4. Revise la sección «Límites del kit» de la guía.
 
-## Uso
+## Alcance
 
-Los kits se entregan tal cual, sin garantía. Cada organización decide y aplica los cambios en sus equipos.
-Las fuentes de cada indicador se citan en la guía y en la planilla de indicadores.
+Un resultado limpio no prueba que un equipo esté sano: los atacantes borran rastros y cambian nombres de archivo.
+Los kits se entregan tal cual, sin garantía. Cada organización decide y aplica los cambios en sus propios equipos.
+
+## Errores y mejoras
+
+¿Encontró un error o un falso positivo? Abra un issue en este repositorio o comente la alerta en la comunidad.
