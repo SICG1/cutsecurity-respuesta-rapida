@@ -1,0 +1,57 @@
+name: Validar kits
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Dependencias
+        run: pip install --no-cache-dir pyyaml==6.0.2 jsonschema==4.23.0 pysigma==0.11.17 yamllint==1.35.1
+
+      - name: Metadatos, huellas y sintaxis de los guiones
+        run: python tools/kits.py validar
+
+      - name: Bash con ShellCheck
+        run: |
+          mapfile -t guiones < <(find kits -name '*.sh')
+          [ ${#guiones[@]} -eq 0 ] || shellcheck --severity=warning "${guiones[@]}"
+
+      - name: PowerShell con PSScriptAnalyzer
+        shell: pwsh
+        run: |
+          Install-Module PSScriptAnalyzer -Force -Scope CurrentUser
+          $res = Get-ChildItem kits -Recurse -Filter *.ps1 | ForEach-Object { Invoke-ScriptAnalyzer -Path $_.FullName -Severity Error }
+          if ($res) { $res | Format-Table -AutoSize; exit 1 }
+
+      - name: Reglas Sigma
+        run: |
+          python - <<'EOF'
+          import pathlib, sys
+          from sigma.collection import SigmaCollection
+          reglas = list(pathlib.Path("kits").rglob("sigma/*.yml"))
+          for r in reglas:
+              SigmaCollection.from_yaml(r.read_text(encoding="utf-8"))
+          print(f"{len(reglas)} reglas Sigma válidas")
+          EOF
+
+      - name: YAML
+        run: |
+          yamllint -d "{extends: relaxed, rules: {line-length: {max: 240}}}" kits schema .github
+
+      - name: Índice del README al día
+        run: |
+          python tools/kits.py indice
+          git diff --exit-code README.md || (echo "::error::Ejecute python tools/kits.py indice y suba el README" && exit 1)

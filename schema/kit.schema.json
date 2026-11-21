@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SICG1/cutsecurity-respuesta-rapida/schema/kit.schema.json",
+  "title": "Metadatos de un kit de respuesta rápida",
+  "type": "object",
+  "required": ["id", "titulo", "version", "publicado", "cves", "producto", "fabricante", "severidad", "pruebas", "fuentes"],
+  "additionalProperties": true,
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"},
+    "titulo": {"type": "string", "minLength": 10},
+    "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "publicado": {"type": "string", "format": "date"},
+    "actualizado": {"type": "string", "format": "date"},
+    "cves": {"type": "array", "minItems": 1, "items": {"type": "string", "pattern": "^CVE-\\d{4}-\\d{4,7}$"}},
+    "producto": {"type": "string"},
+    "fabricante": {"type": "string"},
+    "severidad": {"enum": ["critica", "alta", "media"]},
+    "cvss": {
+      "type": "object",
+      "required": ["puntaje"],
+      "properties": {
+        "puntaje": {"type": "number", "minimum": 0, "maximum": 10},
+        "vector": {"type": "string"},
+        "fuente": {"type": "string"}
+      }
+    },
+    "epss": {
+      "type": ["object", "null"],
+      "properties": {
+        "probabilidad": {"type": "number", "minimum": 0, "maximum": 1},
+        "percentil": {"type": "number", "minimum": 0, "maximum": 1},
+        "fecha": {"type": "string"}
+      }
+    },
+    "kev": {
+      "type": ["object", "null"],
+      "properties": {
+        "agregada": {"type": "string"},
+        "plazo_federal": {"type": "string"},
+        "ransomware": {"type": "boolean"}
+      }
+    },
+    "versiones_afectadas": {"type": "array", "items": {"type": "string"}},
+    "versiones_corregidas": {"type": "array", "items": {"type": "string"}},
+    "mitigacion_temporal": {"type": ["string", "null"]},
+    "pruebas": {
+      "type": "object",
+      "required": ["verificador", "detecciones"],
+      "properties": {
+        "verificador": {"type": "string"},
+        "detecciones": {"type": "string"}
+      }
+    },
+    "fuentes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["titulo", "url", "tipo"],
+        "properties": {
+          "titulo": {"type": "string"},
+          "url": {"type": "string", "pattern": "^https?://"},
+          "tipo": {"enum": ["fabricante", "cert", "investigador", "cisa", "nvd", "medio", "norma"]},
+          "consultada": {"type": "string"}
+        }
+      }
+    }
+  }
+}

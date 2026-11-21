@@ -1,0 +1,34 @@
+name: Publicar versión
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validar
+        run: |
+          pip install --no-cache-dir pyyaml==6.0.2 jsonschema==4.23.0
+          python tools/kits.py validar
+
+      - name: Empaquetar un zip por kit con su huella
+        run: python tools/kits.py empaquetar dist
+
+      - name: Crear la versión con los zip
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/*.zip dist/SHA256SUMS \
+            --title "Kits de respuesta rápida $GITHUB_REF_NAME" \
+            --notes-file CHANGELOG.md
