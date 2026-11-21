@@ -40,7 +40,9 @@ def leer_kits() -> list[Kit]:
 
     kits = []
     for carpeta in sorted(p for p in KITS.iterdir() if p.is_dir()):
-        meta = yaml.safe_load((carpeta / "kit.yaml").read_text(encoding="utf-8"))
+        archivo = carpeta / "kit.yaml"
+        # Una carpeta sin kit.yaml es un kit en preparación: se informa, no rompe la validación de los demás.
+        meta = yaml.safe_load(archivo.read_text(encoding="utf-8")) if archivo.is_file() else {"id": None}
         kits.append(Kit(carpeta, meta))
     return kits
 
@@ -54,6 +56,8 @@ def errores_de(kit: Kit, esquema: dict) -> list[str]:
 
     errores: list[str] = []
     nombre = kit.carpeta.name
+    if kit.meta.get("id") is None:
+        return [f"{nombre}: falta kit.yaml (kit en preparación)"]
     for archivo in OBLIGATORIOS:
         if not (kit.carpeta / archivo).is_file():
             errores.append(f"{nombre}: falta {archivo}")
@@ -75,7 +79,7 @@ def errores_de(kit: Kit, esquema: dict) -> list[str]:
         reales = {
             p.relative_to(kit.carpeta).as_posix(): sha256(p)
             for p in kit.carpeta.rglob("*")
-            if p.is_file() and p.name != "SHA256SUMS"
+            if p.is_file() and p.name != "SHA256SUMS" and "__pycache__" not in p.parts
         }
         for ruta, huella in reales.items():
             if declaradas.get(ruta) != huella:
@@ -89,7 +93,10 @@ def errores_de(kit: Kit, esquema: dict) -> list[str]:
         if subprocess.run(["bash", "-n", relativa], capture_output=True, cwd=RAIZ).returncode != 0:
             errores.append(f"{nombre}: error de sintaxis en {guion.name}")
     for guion in kit.carpeta.rglob("*.py"):
-        if subprocess.run([sys.executable, "-m", "py_compile", str(guion)], capture_output=True).returncode != 0:
+        # compile() en memoria: py_compile dejaría __pycache__ dentro del kit y rompería sus huellas.
+        try:
+            compile(guion.read_text(encoding="utf-8"), str(guion), "exec")
+        except SyntaxError:
             errores.append(f"{nombre}: error de sintaxis en {guion.name}")
     for stix in kit.carpeta.rglob("*.stix.json"):
         datos = json.loads(stix.read_text(encoding="utf-8"))

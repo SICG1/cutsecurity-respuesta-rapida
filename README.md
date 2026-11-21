@@ -1,6 +1,5 @@
 # Respuesta rápida Cut Security
 
-[![Validar kits](https://github.com/SICG1/cutsecurity-respuesta-rapida/actions/workflows/validar.yml/badge.svg)](https://github.com/SICG1/cutsecurity-respuesta-rapida/actions/workflows/validar.yml)
 ![STIX 2.1](https://img.shields.io/badge/indicadores-STIX%202.1-5B2D8E)
 ![Sigma](https://img.shields.io/badge/detecciones-Sigma%20%C2%B7%20Wazuh%20%C2%B7%20KQL%20%C2%B7%20SPL-1B2240)
 
@@ -47,8 +46,8 @@ Todos los kits siguen el [estándar de los kits](docs/ESTANDAR-DE-KITS.md). Sus 
 - Solo lectura: ningún verificador cambia, borra, instala o envía algo.
 - Prueba declarada: cada kit dice qué se probó y cómo, en su guía y en su `kit.yaml`.
 
-Cada cambio pasa por una validación automática: esquema de los metadatos, huellas, ShellCheck, PSScriptAnalyzer,
-reglas Sigma con pySigma y YAML. Para validar en su equipo:
+Cada versión pasa por la misma validación: esquema de los metadatos, huellas, sintaxis de los guiones, reglas Sigma
+con pySigma y YAML. El flujo `.github/workflows/validar.yml` la corre en cada cambio. Para validar en su equipo:
 
 ```bash
 pip install pyyaml jsonschema
