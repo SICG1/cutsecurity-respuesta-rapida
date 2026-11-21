@@ -89,9 +89,17 @@ En español de Chile, frases de menos de 25 palabras, sujeto y verbo de acción.
    en las fuentes, no va. Si dos fuentes se contradicen, manda el fabricante y se dice.
 2. **Solo lectura.** Los verificadores no cambian, no borran, no instalan y no envían nada. Lo declaran al inicio.
 3. **Salida legible por máquina.** Cada hallazgo es una línea `cutsec-kit <cve> hallazgo=<tipo> detalle=<texto>`.
-   Código de salida: 0 sin indicadores, 2 con indicadores, 1 no se pudo revisar.
+   Código de salida: 0 sin indicadores, 2 con indicadores, 1 no se pudo revisar. El detalle sale sin caracteres de
+   control: un nombre de archivo con salto de línea o con códigos de terminal no crea hallazgos falsos ni tapa los
+   verdaderos.
 4. **Direcciones desarmadas en el texto** (`hxxps`, `[.]`), no en el CSV ni en STIX, que son para importar.
 5. **Sin datos de clientes**, sin nombres de personas, sin claves.
 6. **Prueba lo que publicas.** `bash -n`, `shellcheck`, el analizador de PowerShell y `python -m py_compile` sin
    errores. Si un verificador se probó en un entorno simulado, se dice así en el README y en `kit.yaml`.
-7. **Huellas al final**: `sha256sum` de todos los archivos del kit (salvo `SHA256SUMS`) en `SHA256SUMS`.
+7. **Lecturas acotadas.** El verificador suele correr como root y lee archivos que otros usuarios pueden escribir
+   (`/tmp`, `/home`, archivos subidos). Solo lee archivos regulares, con tope de tamaño y de tiempo: un FIFO, un
+   enlace a `/dev/zero` o un `.war` armado para pesar gigabytes no lo cuelga ni le agota la memoria.
+8. **No ejecuta lo que otro puede cambiar.** Un programa encontrado en el disco se ejecuta solo si el programa y su
+   carpeta son de root (en Windows, nunca: la versión se lee de los metadatos). Lo demás se informa sin ejecutarlo;
+   el operador puede pasar la ruta a mano si confía en ella.
+9. **Huellas al final**: `sha256sum` de todos los archivos del kit (salvo `SHA256SUMS`) en `SHA256SUMS`.

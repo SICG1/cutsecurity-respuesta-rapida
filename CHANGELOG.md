@@ -1,5 +1,24 @@
 # Cambios
 
+## v2026.11.21.1
+
+Corrección de seguridad de los verificadores, tras una revisión de los nueve kits. Todos pasan a la versión 1.0.1
+(vCenter a la 1.1.1). Nada cambia en las detecciones ni en los indicadores.
+
+- Lecturas acotadas. Antes, un usuario sin privilegios podía colgar el verificador o agotar la memoria del servidor
+  mientras el verificador corría como root:
+  - OpenSSH: un `authorized_keys` convertido en FIFO o en enlace a `/dev/zero` lo dejaba colgado.
+  - Apache Roller: la búsqueda automática abría cualquier `roller*.war` del disco y lo leía entero. Un archivo armado
+    para pesar gigabytes al descomprimirse agotaba la memoria.
+  - PHP: las sesiones de `/tmp` se leían enteras. Un archivo disperso de 2 GB, que no ocupa disco, agotaba la memoria.
+  - Check Point y PHP: las huellas de `/tmp` se calculan con tope de tamaño y de tiempo, por si el archivo cambia
+    entre la búsqueda y la lectura.
+- Salida limpia en los nueve kits. El detalle de cada hallazgo sale sin saltos de línea ni códigos de terminal.
+  Antes, un nombre de archivo o un argumento de proceso podía crear hallazgos falsos o tapar los verdaderos.
+- GitLab: el `ruby` encontrado en el PATH se ejecuta solo si el programa y su carpeta son de root y nadie más puede
+  escribirlos. Es la misma regla que ya seguía el kit de PHP.
+- Estándar de los kits: dos reglas nuevas, «Lecturas acotadas» y «No ejecuta lo que otro puede cambiar».
+
 ## v2026.11.21
 
 - Estándar 2.0 de los kits (`docs/ESTANDAR-DE-KITS.md`): estructura por carpetas, `kit.yaml` validado por esquema,

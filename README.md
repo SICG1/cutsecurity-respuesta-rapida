@@ -15,15 +15,15 @@ https://cutsecurity.cl/comunidad
 <!-- indice:inicio -->
 | Kit | CVE | Severidad | KEV | Versión |
 |---|---|---|---|---|
-| [Apache Roller](kits/apache-roller-cve-2026-129448/) | CVE-2026-129448, CVE-2026-82384 | Crítica | 2026-11-20 | 1.0.0 |
-| [Barracuda Email Security Gateway](kits/barracuda-esg-cve-2026-116606/) | CVE-2026-116606, CVE-2026-111560 | Crítica | 2026-11-10 | 1.0.0 |
-| [BeyondTrust Remote Support](kits/beyondtrust-cve-2026-102764/) | CVE-2026-102764 | Crítica | 2026-10-16 | 1.0.0 |
-| [Check Point Security Gateway y servidores de gestión (Gaia OS)](kits/checkpoint-cve-2026-123039/) | CVE-2026-123039, CVE-2026-109618, CVE-2026-109619 | Alta | 2026-11-13 | 1.0.0 |
-| [Cisco Expressway-C y Expressway-E en clúster](kits/cisco-expressway-cve-2026-76466/) | CVE-2026-76466 | Crítica | 2026-11-20 | 1.0.0 |
-| [GitLab Community Edition y Enterprise Edition](kits/gitlab-cve-2026-97229/) | CVE-2026-97229 | Crítica | 2026-10-29 | 1.0.0 |
-| [OpenSSH (sshd portable en Linux con musl y sin PAM)](kits/openssh-cve-2026-123158/) | CVE-2026-123158 | Alta | 2026-11-09 | 1.0.0 |
-| [PHP](kits/php-cve-2026-109618/) | CVE-2026-109618, CVE-2026-109619 | Crítica | 2026-10-26 | 1.0.0 |
-| [VMware vCenter Server](kits/vmware-vcenter-cve-2026-123890/) | CVE-2026-123890 | Crítica | 2026-11-20 | 1.1.0 |
+| [Apache Roller](kits/apache-roller-cve-2026-129448/) | CVE-2026-129448, CVE-2026-82384 | Crítica | 2026-11-20 | 1.0.1 |
+| [Barracuda Email Security Gateway](kits/barracuda-esg-cve-2026-116606/) | CVE-2026-116606, CVE-2026-111560 | Crítica | 2026-11-10 | 1.0.1 |
+| [BeyondTrust Remote Support](kits/beyondtrust-cve-2026-102764/) | CVE-2026-102764 | Crítica | 2026-10-16 | 1.0.1 |
+| [Check Point Security Gateway y servidores de gestión (Gaia OS)](kits/checkpoint-cve-2026-123039/) | CVE-2026-123039, CVE-2026-109618, CVE-2026-109619 | Alta | 2026-11-13 | 1.0.1 |
+| [Cisco Expressway-C y Expressway-E en clúster](kits/cisco-expressway-cve-2026-76466/) | CVE-2026-76466 | Crítica | 2026-11-20 | 1.0.1 |
+| [GitLab Community Edition y Enterprise Edition](kits/gitlab-cve-2026-97229/) | CVE-2026-97229 | Crítica | 2026-10-29 | 1.0.1 |
+| [OpenSSH (sshd portable en Linux con musl y sin PAM)](kits/openssh-cve-2026-123158/) | CVE-2026-123158 | Alta | 2026-11-09 | 1.0.1 |
+| [PHP](kits/php-cve-2026-109618/) | CVE-2026-109618, CVE-2026-109619 | Crítica | 2026-10-26 | 1.0.1 |
+| [VMware vCenter Server](kits/vmware-vcenter-cve-2026-123890/) | CVE-2026-123890 | Crítica | 2026-11-20 | 1.1.1 |
 <!-- indice:fin -->
 
 ## Qué trae cada kit
