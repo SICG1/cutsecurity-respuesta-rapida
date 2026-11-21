@@ -128,7 +128,7 @@ def indice() -> int:
     readme = RAIZ / "README.md"
     texto = readme.read_text(encoding="utf-8")
     inicio, fin = texto.index(MARCA_INICIO) + len(MARCA_INICIO), texto.index(MARCA_FIN)
-    readme.write_text(texto[:inicio] + "\n" + "\n".join(filas) + "\n" + texto[fin:], encoding="utf-8")
+    readme.write_text(texto[:inicio] + "\n" + "\n".join(filas) + "\n" + texto[fin:], encoding="utf-8", newline="\n")  # LF también en Windows: sha256sum -c no lee CRLF
     print(f"índice con {len(filas) - 2} kits")
     return 0
 
@@ -144,7 +144,7 @@ def empaquetar(destino: str) -> int:
                 if p.is_file():
                     z.write(p, f"{k.id}/{p.relative_to(k.carpeta).as_posix()}")
         lineas.append(f"{sha256(zip_ruta)}  {zip_ruta.name}")
-    (salida / "SHA256SUMS").write_text("\n".join(lineas) + "\n", encoding="utf-8")
+    (salida / "SHA256SUMS").write_text("\n".join(lineas) + "\n", encoding="utf-8", newline="\n")  # LF también en Windows: sha256sum -c no lee CRLF
     print("\n".join(lineas))
     return 0
 
